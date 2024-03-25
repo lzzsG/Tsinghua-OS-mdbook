@@ -1,0 +1,18 @@
+[book]
+authors = ["lzzsG"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Tsinghua-operating-system"
+
+
+[output.html]
+
+
+default-theme = "light"
+preferred-dark-theme = "black"
+
+git-repository-url = "https://github.com/lzzsG/Tsinghua-operating-system"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/lzzsG/Tsinghua-operating-system/edit/master/guide/{path}"
+
