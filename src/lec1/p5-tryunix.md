@@ -1,78 +1,78 @@
 
-## 第一讲 操作系统概述
+### 第一讲 操作系统概述
 
-### 第五节 实践：试试UNIX/Linux
+#### 第五节 实践：试试UNIX/Linux
 
-
-
-
-向勇 陈渝 李国良 任炬 
-
-
-
+向勇 陈渝 李国良 任炬
 
 2024年春季
 
 ---
-## UNIX/Linux？
 
-- Linux 
-   - Ubuntu、Fedora、SuSE、openEuler 
-   - 麒麟  统信  
+### UNIX/Linux？
+
+- Linux
+  - Ubuntu、Fedora、SuSE、openEuler
+  - 麒麟  统信  
 - Windows with WSL (Windows Subsystem of Linux)
-- MacOS with UNIX shell 
+- MacOS with UNIX shell
 
 ![bg right 90%](./figs/linux-dists.png)
 
 ---
-## UNIX/Linux？
+
+### UNIX/Linux？
+
 - 开放源码，有很好的文档，设计简洁，使用广泛
 - 如果你了解Linux的内部情况，学习ucore/rcore会有帮助。
 
 ![bg right 100%](./figs/ucorearch.png)
 
 ---
-## Try UNIX/Linux
+
+### Try UNIX/Linux
 
 - shell
-   - bash 基本的shell环境
-   - fish 强调交互性和可用性
-   - zsh 带有自动补全、支持插件
-   - starship 轻量、迅速、可无限定制
+  - bash 基本的shell环境
+  - fish 强调交互性和可用性
+  - zsh 带有自动补全、支持插件
+  - starship 轻量、迅速、可无限定制
 
 - program
-   - ls, rm，gcc，gdb, vim ...
+  - ls, rm，gcc，gdb, vim ...
 
 ![bg right:40% 100%](./figs/shells.png)
 
 ---
-## UNIX/Linux提供哪些服务？
 
-  - 进程（正在运行的程序）
-  - 内存分配
-  - 文件内容、文件名、目录
-  - 访问控制（安全）
-  - 许多其他的：用户、IPC、网络、时间
+### UNIX/Linux提供哪些服务？
+
+- 进程（正在运行的程序）
+- 内存分配
+- 文件内容、文件名、目录
+- 访问控制（安全）
+- 许多其他的：用户、IPC、网络、时间
 
 ![bg right 100%](./figs/ucorearch.png)
 
 ---
-## UNIX/Linux提供的应用/内核接口？
 
-  - APP -> C lib -> Syscall -> Kernel
-  - 用C语言，来自类UNIX OS
+### UNIX/Linux提供的应用/内核接口？
+
+- APP -> C lib -> Syscall -> Kernel
+- 用C语言，来自类UNIX OS
 
             fd = open("out", 1);
             write(fd, "hello\n", 6);
 
-
- -  看起来像函数调用，其实是系统调用
- -  核心的系统调用数量并不多
+- 看起来像函数调用，其实是系统调用
+- 核心的系统调用数量并不多
 
 ![bg right:50% 100%](./figs/linux-syscall.png)
 
 ---
-## UNIX/Linux提供的应用/内核接口？
+
+### UNIX/Linux提供的应用/内核接口？
 
 | 系统调用名 | 含义 |
 | ------------------------ | ---- |
@@ -83,7 +83,8 @@
 | ``int getpid()``             |   返回当前进程的PID。   |
 
 ---
-## UNIX/Linux提供的应用/内核接口？
+
+### UNIX/Linux提供的应用/内核接口？
 
 | 系统调用名 | 含义 |
 | ------------------------ | ---- |
@@ -94,7 +95,8 @@
 |   ``int write(int fd，char *buf，int n)``   |  从buf向文件描述符fd写入n个字节；返回n。    |
 
 ---
-## UNIX/Linux提供的应用/内核接口？
+
+### UNIX/Linux提供的应用/内核接口？
 
 | 系统调用名 | 含义 |
 | ------------------------ | ---- |
@@ -105,34 +107,41 @@
 |  ``int chdir(char *dir)``     | 更改当前目录。|
 
 ---
-## UNIX/Linux提供的应用/内核接口？
+
+### UNIX/Linux提供的应用/内核接口？
+
 | 系统调用名 | 含义 |
 | ------------------------ | ---- |
-|  ``int mkdir(char *dir) ``     |  创建一个新目录。    |
+|  ``int mkdir(char *dir)``     |  创建一个新目录。    |
 | ``int mknod(char *file, int, int)``  |  创建一个设备文件。    |
 |  ``int fstat(int fd,struct stat *st)`` | 将文件fd的元信息放入``*st``|
 |   ``int stat(char *file,struct stat *st)``| 将文件 ``*file`` 的元信息放入 ``*st``|
 | ``int link(char *file1，char *file2)``    | 为文件file1创建另一个名称(file2)|
 | ``int unlink(char *file)``    |   删除文件。    |
 
-
 ---
-## UNIX/Linux应用
+
+### UNIX/Linux应用
 
 [分析一些非常简单的小程序](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/)
 
-#### 进程相关
+##### 进程相关
 
 fork.c  exec.c  forkexec.c
-#### 文件系统相关
+
+##### 文件系统相关
+
 list.c  open.c echo.c  copy.c
-#### 进程间通信相关
+
+##### 进程间通信相关
+
  pipe1.c  pipe2.c  redirect.c
 
 ![bg right:55% 100%](./figs/xv6-syscall.png)
 
 ---
-## UNIX/Linux应用 - open
+
+### UNIX/Linux应用 - open
 
 - 例如：[open.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/open.c)，创建一个文件
 
@@ -145,18 +154,21 @@ list.c  open.c echo.c  copy.c
 - man的第一个参数：1 表示查shell命令；2 表示查系统调用
 
 ---
-## UNIX/Linux应用 - copy
+
+### UNIX/Linux应用 - copy
+
  例如：[copy.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/copy.c)，将输入文件内容复制到输出文件中
 从输入文件中读取字节内容，将其写入输出文件中
 
-        $ copy
+        copy
 
   read()和write()是系统调用
   read()/write()第一个参数是"文件描述符"(fd)
   传递给内核，告诉它要读/写哪个 "打开的文件"
 
 ---
-## UNIX/Linux应用 - copy
+
+### UNIX/Linux应用 - copy
 
 - 一个文件描述符对应一个打开的文件
 - 一个进程可以打开许多文件，有许多描述符
@@ -167,22 +179,16 @@ list.c  open.c echo.c  copy.c
 - read()第二个参数是指向要读取的缓冲区的指针，缓冲区的大小由第三个参数指定
 - 文件访问模式：`open -> read/write -> close`
 
-
-
-
 <!-- ---
-## UNIX/Linux应用 - copy 
+### UNIX/Linux应用 - copy 
 
 - 返回值：实际读取的字节数，或者-1表示错误
 - 注意：copy.c并不关心数据的格式
 - 数据格式的解释是特定于应用的，例如数据库记录、C源码等
 - 文件描述符从何而来？ -->
 
-
-
-
 <!-- ---
-## UNIX/Linux应用 - open
+### UNIX/Linux应用 - open
 
 当程序调用open()这样的系统调用时会发生什么？
 
@@ -192,9 +198,8 @@ list.c  open.c echo.c  copy.c
 - 硬件跳转到内核中一个已知的 "入口点"（内核态入口）
 - 然后在内核中运行C代码（执行内核态代码）
 
-
 ---
-## UNIX/Linux应用 - open
+### UNIX/Linux应用 - open
 
 当程序调用open()这样的系统调用时会发生什么？
 
@@ -208,7 +213,7 @@ list.c  open.c echo.c  copy.c
 - 将在后面的课程中看到更多的细节 -->
 
 <!-- ---
-## UNIX/Linux应用 - shell
+### UNIX/Linux应用 - shell
 
 - 在向UNIX的命令行界面（shell）输入信息。
 - shell打印出"$"的提示。
@@ -220,7 +225,7 @@ list.c  open.c echo.c  copy.c
     $ grep x < out
 
 ---
-## UNIX/Linux应用  - shell
+### UNIX/Linux应用  - shell
 
 - 但通过shell来支持分时共享多任务执行是UNIX设计之初的重点。
 - 可以通过shell行使许多系统调用。
@@ -229,12 +234,10 @@ list.c  open.c echo.c  copy.c
 
     $ echo hello -->
 
-
-
 ---
 
+### UNIX/Linux应用 - fork
 
-## UNIX/Linux应用 - fork
 fork()系统调用创建一个进程的副本（子进程）
 
 - 复制：指令、数据、寄存器、文件描述符、当前目录
@@ -244,21 +247,21 @@ fork()系统调用创建一个进程的副本（子进程）
 
 ---
 
-
-## UNIX/Linux应用 - fork 
+### UNIX/Linux应用 - fork
 
 - 区别：fork()在父进程中返回一个pid，在子进程中返回0。
 - pid（进程ID）是一个整数，内核给每个进程一个不同的pid
 
-- 因此，[fork.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/fork.c)中父子进程的`fork()`返回值`pid`不同 
+- 因此，[fork.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/fork.c)中父子进程的`fork()`返回值`pid`不同
 
 - 父子进程的执行差别就体现在对`fork()`返回值`pid`的判别上
-   - 0代表子进程，否则代表父进程 
+  - 0代表子进程，否则代表父进程
 
 ![bg right:40% 100%](../lec7/figs/fork.png)
 
 ---
-## UNIX/Linux应用 - exec
+
+### UNIX/Linux应用 - exec
 
 - 怎样才能在这个进程中运行一个新程序呢？  
 
@@ -268,11 +271,12 @@ exec(filename, argument-array)
 argument-array保存命令行参数；exec传递给main()
 
 exec()用新执行文件取代当前进程
+
 - 丢弃已有指令和数据内存空间
 - 从文件中加载新执行程序的指令和数据
 
 <!-- ---
-## UNIX/Linux应用 - exec
+### UNIX/Linux应用 - exec
 
 exec(filename, argument-array)
 argument-array保存命令行参数；exec传递给main()
@@ -282,13 +286,13 @@ argument-array保存命令行参数；exec传递给main()
 echo.c显示了一个程序如何看待它的命令行参数 -->
 
 ---
-## UNIX/Linux应用 - forkexec
+
+### UNIX/Linux应用 - forkexec
 
 例如：[forkexec.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/forkexec.c)，fork()一个新进程，exec()一个程序。
 
-
-
 常见的UNIX APP执行模式
+
 - fork()：创建子进程
 - exec()：子进程中执行新程序
 - wait()：父进程等待子进程完成
@@ -297,16 +301,15 @@ echo.c显示了一个程序如何看待它的命令行参数 -->
 ![bg right:45% 100%](../lec7/figs/fork-exec.png)
 
 <!-- ---
-## UNIX/Linux应用 - wait
+### UNIX/Linux应用 - wait
 
 - shell你输入的每个命令都进行fork/exec/wait操作。
 - 在wait()之后，shell会打印出下一个提示信息
 - 在后台运行 -- `&` -- , shell会跳过wait() -->
 
-
 <!-- 
 ---
-## UNIX/Linux应用 - exit
+### UNIX/Linux应用 - exit
 - exit(status) --\> wait(&status)
 
 - status约定：0 = 成功，1 = 命令遇到了一个错误
@@ -315,9 +318,9 @@ echo.c显示了一个程序如何看待它的命令行参数 -->
 - 可以通过 "写时复制 "技术透明地消除复制 
 -->
 
-
 ---
-## UNIX/Linux应用 - redirect
+
+### UNIX/Linux应用 - redirect
 
 例子：[redirect.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/redirect.c)，重定向一个命令的输出
 
@@ -325,20 +328,20 @@ echo.c显示了一个程序如何看待它的命令行参数 -->
 - open()总是选择值最小的未使用的文件描述符
 - 通过 `close(1) + open(...)`操作，设定"output.txt"的文件描述符为1
 - exec(...)系统调用保留了文件描述符，执行echo命令后，它的屏幕输出将被重定向到"output.txt"
+
 ```
-    $ redirect
-    $ cat output.txt
+    redirect
+    cat output.txt
 ```
 
 <!-- ---
-## 分析UNIX/Linux类应用 - pipe1
+### 分析UNIX/Linux类应用 - pipe1
 
 例子：[pipe1.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/pipe1.c)，通过一个管道（PIPE）进行通信
 shell如何使用管道机制 `"|"`
 
     $ ls | grep x
     $ pipe1
-
 
 pipe()系统调用创建了两个fd
 - 写入fd[1]，从fd[0]中读取
@@ -347,28 +350,31 @@ pipe()系统调用创建了两个fd
 ![bg right 90%](../lec10/figs/pipe-fds-close.png) -->
 
 <!-- ---
-## 分析UNIX/Linux类应用 - pipe1
+### 分析UNIX/Linux类应用 - pipe1
 
 内核为每个管道维护一个缓冲区
 - write()添加到缓冲区中
 - read()等待，直到有数据出现 -->
 
 ---
-## 分析UNIX/Linux类应用 - pipe2
+
+### 分析UNIX/Linux类应用 - pipe2
 
 - 例子[pipe2.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/pipe2.c)，进程间通信。
 - shell如何使用管道机制 `"|"`
-```
-    $ ls | grep x
-```
-pipe()系统调用创建了两个fd
-- 从fd[1]写入，从fd[0]中读取
 
+```
+    ls | grep x
+```
+
+pipe()系统调用创建了两个fd
+
+- 从fd[1]写入，从fd[0]中读取
 
 ![bg right:50% 100%](../lec10/figs/pipe-fds-close.png)
 
 <!-- ---
-## UNIX/Linux应用
+### UNIX/Linux应用
 
 - 注意：open()总是选择最低的未使用的FD；选择1是由于close(1)。
 - fork、FD和exec很好地互动，以实现I/O重定向
@@ -378,12 +384,12 @@ pipe()系统调用创建了两个fd
 - exec保留了shell设置的FDs
 - 因此：只有shell需要知道I/O重定向，而不是每个程序 -->
 
-
-
 ---
-## UNIX/Linux应用
+
+### UNIX/Linux应用
 
 一些值得思考的问题：
+
 - 为什么是这些I/O和进程的抽象？为什么不是其他的东西？
 - 为什么要提供一个文件系统，而不让程序以自己的方式使用磁盘？
 - 为什么read/write文件用FD而不是文件名？
@@ -392,11 +398,8 @@ pipe()系统调用创建了两个fd
 
 UNIX的设计很好用，但也存在其他的设计
 
-
-
 <!-- ---
-## 分析UNIX/Linux类应用
-
+### 分析UNIX/Linux类应用
 
 - 例子：[list.c](https://pdos.csail.mit.edu/6.828/2021/lec/l-overview/list.c)，列出一个目录中的文件
 - ls是如何获得一个目录中的文件列表的？
@@ -405,14 +408,46 @@ UNIX的设计很好用，但也存在其他的设计
 - 更多细节见ls.c -->
 
 ---
-## 分析UNIX/Linux类应用
+
+### 分析UNIX/Linux类应用
 
 小结
 
 - 介绍了UNIX的I/O、文件系统和进程的抽象
 - 这些接口很简洁，只有整数和I/O缓冲区
--  这些抽象结合得很好，例如，I/O重定向
+- 这些抽象结合得很好，例如，I/O重定向
 
 ---
 
-# 【GPT 笔记】
+# 【总结笔记】
+
+本节介绍了UNIX/Linux系统的基础，提供一个初步的操作实践指南。通过本节内容，学生将了解UNIX/Linux系统的基本概念、如何在不同环境中尝试使用UNIX/Linux，以及UNIX/Linux系统提供的核心服务和应用程序接口。
+
+### UNIX/Linux基本介绍
+
+UNIX和Linux代表了一系列基于开放源代码的操作系统，它们以其稳定性、灵活性和强大的网络功能著称。Linux拥有多个发行版，如Ubuntu、Fedora、SuSE、openEuler、麒麟和统信，每个都有其特点和目标用户。此外，Windows用户可以通过Windows Subsystem for Linux (WSL) 在Windows环境中运行Linux，而MacOS用户则可以通过内置的UNIX shell来体验UNIX环境。
+
+### 尝试UNIX/Linux
+
+#### Shell环境
+
+- **bash**: UNIX和Linux系统中最基本的shell。
+- **fish**: 以用户交互性和易用性为特点的现代shell。
+- **zsh**: 提供自动补全功能和丰富的插件支持的强大shell。
+- **starship**: 一个轻量、快速且高度可定制的shell提示符。
+
+#### 常用程序
+
+- 基础命令行工具如`ls`（列出目录内容）、`rm`（删除文件或目录）、`gcc`（GNU编译器集合）、`gdb`（GNU调试器）、`vim`（文本编辑器）等，是日常操作中不可或缺的工具。
+
+### UNIX/Linux提供的服务
+
+UNIX/Linux系统提供的服务覆盖了进程管理、内存分配、文件系统操作、访问控制以及网络和时间管理等方面。这些服务是通过系统调用（Syscall）来实现的，系统调用为用户空间的应用程序提供了访问操作系统内核功能的方式。
+
+### 应用/内核接口
+
+UNIX/Linux系统的应用程序通过C库（C lib）调用系统调用接口（Syscall）与内核（Kernel）进行交云。例如，使用`open`系统调用打开文件，`write`系统调用写入内容。这些看起来像普通函数调用的接口实际上触发了内核级的操作，使得应用程序能够执行诸如创建进程、读写文件等操作。
+
+### UNIX/Linux应用示例
+
+通过分析和运行一些基本的UNIX/Linux应用程序，如`fork.c`、`exec.c`、`open.c`和`copy.c`等，学生可以深入理解UNIX/Linux系统调用的使用方式和程序之间的交云方式。这些示例程序涵盖了进程管理、文件操作和进程间通信等多个重要概念。
