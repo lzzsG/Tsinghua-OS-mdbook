@@ -3,8 +3,8 @@
 
 ## 第三节 支持线程/协程的OS(TCOS)
 
-<br>
-<br>
+
+
 
 向勇 陈渝 李国良 任炬 
 
@@ -18,7 +18,7 @@
 2. 用户态管理的用户线程
 3. 内核态管理的用户线程
 
-<br>
+
 
 参考：
 * [A stack-less Rust coroutine library under 100 LoC](https://blog.aloni.org/posts/a-stack-less-rust-coroutine-100-loc/)
@@ -27,14 +27,14 @@
 
 ---
 
-##### 实验目标
+#### 实验目标
 
 ![bg right:83% 95%](figs/thread-coroutine-os-detail.png)
 
 
 ---
 
-##### 以往目标
+#### 以往目标
 提高性能、简化开发、加强安全、支持数据持久保存、支持应用的灵活性，支持进程间交互
 - IPC OS：进程间交互
 - Filesystem OS：支持数据持久保存
@@ -46,7 +46,7 @@
 
 ---
 
-##### 进化目标
+#### 进化目标
 提高**并发执行效率**，支持线程和协程
 - 在进程内实现多个控制流（线程/协程）的执行
 - 在用户态或内核态管理多个控制流（线程/协程）
@@ -54,7 +54,7 @@
 
 ---
 
-##### 同学的进化目标
+#### 同学的进化目标
 - 理解基于任务（Task）的进程/线程/协程抽象
 - 理解进程/线程/协程的实现与运行机制
 - 会写支持线程/协程的OS
@@ -104,7 +104,7 @@
 
 ---
 
-##### 如何管理协程/线程/进程？
+#### 如何管理协程/线程/进程？
 - 任务上下文
 - 用户态管理
 - 内核态管理
@@ -114,14 +114,14 @@
 
 ---
 
-##### 用户态管理
+#### 用户态管理
 
 ![bg right:80% 95%](figs/thread-coroutine-os-detail.png)
 
 
 ---
 
-##### 用户态管理线程的任务控制块
+#### 用户态管理线程的任务控制块
 - 与 Lec4中的任务控制块类似
 - 由用户态的Runtime管理
 
@@ -137,7 +137,7 @@ struct Task {
 
 ---
 
-##### 实践步骤
+#### 实践步骤
 
 ```
 git clone https://github.com/rcore-os/rCore-Tutorial-v3.git
@@ -151,7 +151,7 @@ user/src/bin/
 ```
 ---
 
-##### 实践步骤
+#### 实践步骤
 
 执行这个应用程序
 ```
@@ -212,7 +212,7 @@ task: 4 counter: 0
 
 ---
 
-##### 简单的用户态管理多线程应用
+#### 简单的用户态管理多线程应用
 
 简单的用户态管理多线程应用 `stackful_coroutine.rs`
 ```rust
@@ -234,7 +234,7 @@ pub fn main()  {
 
 ---
 
-##### 用户态管理的线程结构与执行状态
+#### 用户态管理的线程结构与执行状态
 ```rust
 struct Task { //线程控制块
     id: usize,
@@ -254,7 +254,7 @@ pub struct TaskContext { //线程上下文
 
 ---
 
-##### 用户态管理的线程结构与执行状态
+#### 用户态管理的线程结构与执行状态
 ```rust
 struct Task { //线程控制块
     id: usize,
@@ -306,7 +306,7 @@ enum State { //线程状态
 </div>
 
 
-<br>
+
 
 参考：
 * [A stack-less Rust coroutine library under 100 LoC](https://blog.aloni.org/posts/a-stack-less-rust-coroutine-100-loc/)
@@ -315,7 +315,7 @@ enum State { //线程状态
 
 ---
 
-##### 用户态线程管理运行时初始化
+#### 用户态线程管理运行时初始化
 
 Runtime::new() 主要有三个步骤：
 1. 设置主线程：初始化应用主线程控制块（TID为 0 ），并设置其状态为 Running；
@@ -324,7 +324,7 @@ Runtime::new() 主要有三个步骤：
 
 ---
 
-##### 用户态线程管理运行时初始化
+#### 用户态线程管理运行时初始化
 
 `Runtime::init()` 把Rutime结构变量的地址赋值给全局可变变量`RUNTIME`，以便在后续执行中会根据`RUNTIME`找到对应的Runtime结构变量。
 
@@ -333,7 +333,7 @@ Runtime::new() 主要有三个步骤：
 
 ---
 
-##### 用户态管理的线程创建
+#### 用户态管理的线程创建
 
 ```rust
     pub fn spawn(&mut self, f: fn()) { // f函数是线程入口
@@ -356,7 +356,7 @@ Runtime::new() 主要有三个步骤：
 
 ---
 
-##### 用户态管理的线程创建
+#### 用户态管理的线程创建
 
 - 在线程向量中查找一个状态为 Available 的空闲线程控制块
 - 初始化该空闲线程的线程控制块的线程上下文
@@ -384,7 +384,7 @@ fn t_return(&mut self) {
 
 ---
 
-##### 用户态管理的线程切换
+#### 用户态管理的线程切换
  
 当应用要切换线程时，会调用 yield_task 函数，通过 runtime.t_yield 函数来完成具体的切换过程。`runtime.t_yield()` 函数主要完成的功能：
 - 在线程向量中查找一个状态为 Ready 的线程控制块
@@ -393,7 +393,7 @@ fn t_return(&mut self) {
 
 ---
 
-##### 用户态管理的线程切换
+#### 用户态管理的线程切换
 
 ```rust
 fn t_yield(&mut self) -> bool {
@@ -412,13 +412,13 @@ fn t_yield(&mut self) -> bool {
 
 ---
 
-##### switch 主要完成的工作
+#### switch 主要完成的工作
 - 完成当前指令指针(PC)的切换；
 - 完成栈指针的切换；
 - 完成通用寄存器集合的切换；
 ---
 
-##### switch 主要完成的工作
+#### switch 主要完成的工作
 
 
 ```
@@ -437,7 +437,7 @@ unsafe fn switch(old: *mut TaskContext, new: *const TaskContext)  {
 
 ---
 
-##### 用户态管理的线程执行&调度
+#### 用户态管理的线程执行&调度
  
 ```rust
     pub fn run(&mut self){
@@ -480,7 +480,7 @@ unsafe fn switch(old: *mut TaskContext, new: *const TaskContext)  {
 
 </div>
 
-<br>
+
 
 参考：
 * [A stack-less Rust coroutine library under 100 LoC](https://blog.aloni.org/posts/a-stack-less-rust-coroutine-100-loc/)
@@ -489,13 +489,13 @@ unsafe fn switch(old: *mut TaskContext, new: *const TaskContext)  {
 
 ---
 
-##### 总体思路
+#### 总体思路
 
 ![bg right:83% 95%](figs/task-abstracts.png)
 
 ---
 
-##### 如何管理协程/线程/进程？
+#### 如何管理协程/线程/进程？
 - 任务上下文
 - 用户态管理
 - 内核态管理
@@ -504,13 +504,13 @@ unsafe fn switch(old: *mut TaskContext, new: *const TaskContext)  {
 
 ---
 
-##### 总体思路 
+#### 总体思路 
 
 ![bg right:83% 95%](figs/thread-coroutine-os-detail.png)
 
 ---
 
-##### 内核态管理的用户线程的线程控制块
+#### 内核态管理的用户线程的线程控制块
 
 - 与 Lec7中的任务控制块类似
 - 重构：进程中有多个代表线程的任务控制块
@@ -525,7 +525,7 @@ pub struct ProcessControlBlockInner {
 
 ---
 
-##### 实践步骤
+#### 实践步骤
 
 ```
 git clone https://github.com/rcore-os/rCore-Tutorial-v3.git
@@ -540,7 +540,7 @@ user/src/bin/
 ```
 ---
 
-##### 执行threads_arg应用程序
+#### 执行threads_arg应用程序
 ```
 Rust user shell
 >> threads_arg
@@ -593,7 +593,7 @@ main thread exited.
 
 ---
 
-##### 简单的内核态管理多线程应用
+#### 简单的内核态管理多线程应用
 
 简单的内核态管理多线程应用 `threads_arg.rs`
 ```rust
@@ -615,7 +615,7 @@ pub fn main() -> i32 {
 
 ---
 
-##### 创建线程系统调用
+#### 创建线程系统调用
 
 进程运行过程中，可创建多个属于这个进程的线程，每个线程有自己的线程标识符（TID，Thread Identifier）。
 
@@ -631,7 +631,7 @@ pub fn sys_thread_create(entry: usize, arg: usize) -> isize
 
 ---
 
-##### 线程退出系统调用
+#### 线程退出系统调用
 
 线程执行完代表它的功能后，会通过 `exit` 系统调用退出。进程/主线程调用 `waittid` 来回收其资源，来彻底销毁整个线程。
 
@@ -685,7 +685,7 @@ pub fn sys_waittid(tid: usize) -> i32
 
 ---
 
-##### 线程管理与进程管理的关系
+#### 线程管理与进程管理的关系
 
 引入了线程机制后，进程相关的重要系统调用：fork 、 exec 、 waitpid 接口上没有变化，但**完成的功能上需要有一定的扩展**。
 - 把以前进程中与处理器执行相关的部分拆分到线程中
@@ -697,7 +697,7 @@ pub fn sys_waittid(tid: usize) -> i32
 
 ---
 
-##### fork与多个线程
+#### fork与多个线程
 
 问题：“被fork的子进程是否要复制父进程的多个线程？”
 * 选择A：要复制多个线程；
@@ -708,7 +708,7 @@ pub fn sys_waittid(tid: usize) -> i32
 
 ---
 
-##### fork与多个线程
+#### fork与多个线程
 
 场景：在fork前，有三个线程Main thread， thread X, thread Y, 且Thread X拿到一个lock，在临界区中执行；Thread Y正在写一个文件。Main thread执行fork.
 
@@ -756,7 +756,7 @@ pub fn sys_waittid(tid: usize) -> i32
 
 ---
 
-##### 线程管理数据结构
+#### 线程管理数据结构
 改进现有进程管理的一些数据结构包含的内容及接口，把进程中与处理器相关的部分分拆出来，形成线程相关的部分。
 - 任务控制块 TaskControlBlock ：表示线程的核心数据结构
 - 任务管理器 TaskManager ：管理线程集合的核心数据结构
@@ -764,7 +764,7 @@ pub fn sys_waittid(tid: usize) -> i32
 
 ---
 
-##### 线程控制块
+#### 线程控制块
 ```rust
 pub struct TaskControlBlock {
     pub process: Weak<ProcessControlBlock>, //线程所属的进程控制块
@@ -783,7 +783,7 @@ pub struct TaskControlBlockInner {
 
 ---
 
-##### 进程控制块
+#### 进程控制块
 ```rust
 pub struct ProcessControlBlock {
     pub pid: PidHandle,
@@ -800,7 +800,7 @@ pub struct ProcessControlBlockInner {
  
 ---
 
-##### 线程创建`sys_thread_create`
+#### 线程创建`sys_thread_create`
 
 当一个进程执行中发出系统调用 `sys_thread_create` 后，操作系统就需要在当前进程的基础上创建一个线程，即在线程控制块中初始化各个成员变量，建立好进程和线程的关系等，关键要素包括：
 - 线程的用户态栈：确保在用户态的线程能正常执行函数调用
@@ -810,7 +810,7 @@ pub struct ProcessControlBlockInner {
 
 ---
 
-##### 线程创建`sys_thread_create`
+#### 线程创建`sys_thread_create`
 
 ```rust
 pub fn sys_thread_create(entry: usize, arg: usize) -> isize {
@@ -830,14 +830,14 @@ pub fn sys_thread_create(entry: usize, arg: usize) -> isize {
 
 ---
 
-##### 线程退出`sys_exit`
+#### 线程退出`sys_exit`
 
 - 当一个非主线程的其他线程发出 `sys_exit` 系统调用时，内核会调用 exit_current_and_run_next 函数退出当前线程并切换到下一个线程，但不会导致其所属进程的退出。
 - 当主线程 即进程发出这个系统调用，当内核收到这个系统调用后，会回收整个进程（这包括了其管理的所有线程）资源，并退出。
 
 ---
 
-##### 线程退出`sys_exit`
+#### 线程退出`sys_exit`
 
 ```rust
 pub fn sys_exit(exit_code: i32) -> ! {
@@ -858,13 +858,13 @@ pub fn exit_current_and_run_next(exit_code: i32) {
 
 ---
 
-##### 等待线程结束`sys_waittid`
+#### 等待线程结束`sys_waittid`
 - 如果找到 tid 对应的线程，则尝试收集该线程的退出码 exit_tid ，否则返回错误（退出线程不存在）。
 - 如果退出码存在(意味该线程确实退出了)，则清空进程中对应此线程的线程控制块（至此，线程所占资源算是全部清空了），否则返回错误（线程还没退出）。
 
 ---
 
-##### 等待线程结束`sys_waittid`
+#### 等待线程结束`sys_waittid`
 
 ```rust
 pub fn sys_waittid(tid: usize) -> i32 {
@@ -886,7 +886,7 @@ pub fn sys_waittid(tid: usize) -> i32 {
 
 ---
 
-##### 线程执行中的特权级切换和调度切换
+#### 线程执行中的特权级切换和调度切换
 
 - 线程执行中的特权级切换与第四讲中介绍的任务切换的设计与实现是一致的
 - 线程执行中的调度切换过程与第七讲中介绍的进程调度机制是一致的

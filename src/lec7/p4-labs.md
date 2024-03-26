@@ -4,8 +4,8 @@
 
 Process OS(POS)
 
-<br>
-<br>
+
+
 
 向勇 陈渝 李国良 任炬 
 
@@ -45,7 +45,7 @@ Process OS(POS)
 
 ---
 
-##### 以往目标
+#### 以往目标
 
 提高性能、简化开发、加强安全
 - Address Space OS
@@ -57,7 +57,7 @@ Process OS(POS)
 
 ---
 
-##### 实验目标
+#### 实验目标
 
 增强进程管理和资源管理、提高性能、简化开发、加强安全
 
@@ -70,7 +70,7 @@ Process OS(POS)
 
 ---
 
-##### 实验要求
+#### 实验要求
 
 - 理解进程概念
 - 理解进程的动态管理机制的设计与实现
@@ -84,19 +84,19 @@ Process OS(POS)
 
 ---
 
-##### 总体思路
+#### 总体思路
 
 ![bg right:76% 90%](figs/process-os-detail.png)
 
 ---
 
-##### 总体思路
+#### 总体思路
 
 ![bg right:76% 85%](figs/process-os-key-structures.png)
 
 ---
 
-##### 总体思路
+#### 总体思路
 
 - 编译：应用程序和内核独立编译，合并为一个镜像
 - 编译：不同应用程序可采用统一的起始地址
@@ -107,7 +107,7 @@ Process OS(POS)
 
 ---
 
-##### 历史背景
+#### 历史背景
 - 1965：描述未来的 MULTICS 操作系统
   - MIT 的 Fernando J. Corbató 教授牵头
   - 参与单位：MIT, GE(通用电气公司), AT&T Bell Labs
@@ -118,7 +118,7 @@ Process OS(POS)
   - 它的许多特征影响了以后的操作系统命令行界面的发展
 ---
 
-##### 实践步骤
+#### 实践步骤
 ```
 git clone https://github.com/rcore-os/rCore-Tutorial-v3.git
 cd rCore-Tutorial-v3
@@ -129,7 +129,7 @@ make run
 
 ---
 
-##### 实践步骤
+#### 实践步骤
 ```
 [RustSBI output]
 ...
@@ -142,7 +142,7 @@ Rust user shell
 
 ---
 
-##### 软件架构
+#### 软件架构
 
 - 管理进程
     - 创建
@@ -183,7 +183,7 @@ Rust user shell
 
 ---
 
-##### 改进OS
+#### 改进OS
 ```
 ├── os
     ├── build.rs(修改：基于应用名的应用构建器)
@@ -195,7 +195,7 @@ Rust user shell
 
 ---
 
-##### 改进OS
+#### 改进OS
 ```
 ├── os
     └── src
@@ -244,7 +244,7 @@ Rust user shell
 
 ---
 
-##### 理解进程
+#### 理解进程
 
 - 应用角度
     - **进程** 是正在执行的应用
@@ -256,7 +256,7 @@ Rust user shell
 
 ---
 
-##### 进程管理系统调用
+#### 进程管理系统调用
 
 ```
 /// 功能：当前进程 fork 出来一个子进程。
@@ -275,7 +275,7 @@ pub fn sys_exec(path: &str) -> isize;
 
 ---
 
-##### 进程管理系统调用
+#### 进程管理系统调用
 
 ```
 /// 功能：当前进程等待一个子进程变为僵尸进程，回收其全部资源并收集其返回值。
@@ -289,7 +289,7 @@ pub fn sys_waitpid(pid: isize, exit_code: *mut i32) -> isize;
 
 ---
 
-##### 应用``shell``的执行流程
+#### 应用``shell``的执行流程
 1. 通过``sys_read``获取字符串（即文件名）
 2. 通过``sys_fork``创建子进程
 3. 在子进程中通过``sys_exec``创建新应用的进程
@@ -331,7 +331,7 @@ pub fn sys_waitpid(pid: isize, exit_code: *mut i32) -> isize;
 
 ---
 
-##### 应用的链接与加载支持
+#### 应用的链接与加载支持
 
 在编译操作系统的过程中，会生成如下的 link_app.S 文件
 ```
@@ -348,7 +348,7 @@ pub fn sys_waitpid(pid: isize, exit_code: *mut i32) -> isize;
 
 ---
 
-##### 基于应用名的应用加载
+#### 基于应用名的应用加载
 
 在加载器 loader.rs 中，分析 link_app.S 中的内容，并用一个全局可见的 **只读** 向量 ``APP_NAMES`` 来按照顺序将所有应用的名字保存在内存中，为通过 exec 系统调用创建新进程做好了前期准备。
 
@@ -387,13 +387,13 @@ pub fn sys_waitpid(pid: isize, exit_code: *mut i32) -> isize;
 
 ---
 
-##### 核心数据结构间的关系
+#### 核心数据结构间的关系
 
 ![bg right:70% 100%](figs/process-os-key-structures.png)
 
 ---
 
-##### 进程控制块TCB
+#### 进程控制块TCB
 
 进程抽象的对应实现是进程控制块 -- TCB  ``TaskControlBlock``
 ```rust
@@ -408,7 +408,7 @@ pub struct TaskControlBlock {
 
 ---
 
-##### 进程控制块TCB
+#### 进程控制块TCB
 
 进程抽象的对应实现是进程控制块 -- TCB  ``TaskControlBlock``
 ```rust
@@ -426,7 +426,7 @@ pub struct TaskControlBlockInner {
 
 ---
 
-##### 进程管理器``TaskManager``
+#### 进程管理器``TaskManager``
 
 - 任务管理器自身仅负责管理所有就绪的进程
 
@@ -438,7 +438,7 @@ pub struct TaskManager {
 
 ---
 
-##### 处理器管理结构
+#### 处理器管理结构
 
 处理器管理结构 ``Processor`` 描述CPU 执行状态
 ```rust
@@ -486,7 +486,7 @@ pub struct Processor {
 
 ---
 
-##### 进程管理机制实现概述
+#### 进程管理机制实现概述
 
 1. 创建初始进程：创建第一个用户态进程 `initproc`
 2. 进程生成机制：介绍进程相关的系统调用 `sys_fork`/`sys_exec` 
@@ -497,7 +497,7 @@ pub struct Processor {
 
 ---
 
-##### 创建初始进程
+#### 创建初始进程
 
 ```rust
 lazy_static! {
@@ -513,7 +513,7 @@ pub fn add_initproc() {
 
 ---
 
-##### 创建新进程`fork()`
+#### 创建新进程`fork()`
 
 复制父进程内容并构造新的进程控制块
 
@@ -529,7 +529,7 @@ pub fn fork(self: &Arc<TaskControlBlock>) -> Arc<TaskControlBlock> {...}
 
 ---
 
-##### 加载新应用`exec()`
+#### 加载新应用`exec()`
 
 用新应用的 ELF 可执行文件中的代码和数据替换原有的应用地址空间中的内容
 
@@ -541,7 +541,7 @@ pub fn exec(&self, elf_data: &[u8]) {...}
 
 ---
 
-##### 进程调度机制
+#### 进程调度机制
 
 暂停当前任务并切换到下一个任务
 
@@ -555,7 +555,7 @@ pub fn exec(&self, elf_data: &[u8]) {...}
 
 ---
 
-##### 进程资源回收机制
+#### 进程资源回收机制
 
 进程退出`exit_current_and_run_next` 
 - 当前进程控制块从``PROCESSOR``中取出，修改其为僵尸进程
@@ -566,7 +566,7 @@ pub fn exec(&self, elf_data: &[u8]) {...}
 
 ---
 
-##### 进程资源回收机制
+#### 进程资源回收机制
 
 等待子进程退出`sys_waitpid`
 
@@ -577,7 +577,7 @@ pub fn exec(&self, elf_data: &[u8]) {...}
 
 ---
 
-##### 字符输入机制
+#### 字符输入机制
 
 ```rust
 pub fn sys_read(fd: usize, buf: *const u8, len: usize) -> isize {
@@ -589,7 +589,7 @@ pub fn sys_read(fd: usize, buf: *const u8, len: usize) -> isize {
 
 ---
 
-##### 支持进程的操作系统POS
+#### 支持进程的操作系统POS
 
 - 进程概念与进程实现的关系
 - 进程管理机制

@@ -66,7 +66,7 @@
 
 ### 参考资源
 ####  系统工具
-##### 面向Rust软件的安全验证工具
+#### 面向Rust软件的安全验证工具
 - [Rust 代码的形式化验证工具简要综述](https://zhuanlan.zhihu.com/p/637360324)
 - [Verus:一个用于验证用 Rust 编写的代码(包括Rust操作系统)正确性的工具，验证语言也用的Rust](https://github.com/verus-lang/verus)
    - [Verus Guide&Tutorial](https://verus-lang.github.io/verus/guide/)
@@ -76,7 +76,7 @@
    - [用Prusti验证OS的论文：Leveraging Rust for Lightweight OS Correctness](https://dl.acm.org/doi/10.1145/3625275.3625398)
 - [验证Rust hypervisor论文（清华OS课题组）：Verifying Rust Implementation of Page Tables in a Software Enclave Hypervisor](https://www.cs.columbia.edu/~rgu/publications/asplos24-dai.pdf)
 - [kani:a bit-precise model checker for Rust](https://github.com/model-checking/kani)
-##### 面向操作系统内核的Fuzzing工具
+#### 面向操作系统内核的Fuzzing工具
 - [healer：基于Rust编写的fuzzer](https://github.com/SunHao-0/healer)
 - [syzkaller](https://github.com/google/syzkaller)
   - [syzkaller相关信息](https://github.com/orgs/rcore-os/discussions/38) 

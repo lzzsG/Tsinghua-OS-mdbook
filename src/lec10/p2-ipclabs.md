@@ -4,8 +4,8 @@ Inter Process Communication, IPC
 ## 第二节 支持IPC的OS
 IPC OS (IOS)
 
-<br>
-<br>
+
+
 
 向勇 陈渝 李国良 任炬 
 
@@ -47,7 +47,7 @@ IPC OS (IOS)
 
 ---
 
-##### 以往实验目标
+#### 以往实验目标
 
 提高性能、简化开发、加强安全、支持数据持久保存
 - Filesystem OS：支持数据持久保存
@@ -59,14 +59,14 @@ IPC OS (IOS)
 
 ---
 
-##### 实验目标
+#### 实验目标
 支持应用的灵活性，支持进程间交互
 
 ![bg right:74% 95%](figs/ipc-os-detail-2.png)
 
 ---
 
-##### 实验目标
+#### 实验目标
 
 支持应用的灵活性，支持进程间交互
 - 扩展文件抽象：Pipe，Stdout, Stdin
@@ -81,7 +81,7 @@ IPC OS (IOS)
 
 ---
 
-##### 实验要求
+#### 实验要求
 
 - 理解文件抽象
 - 理解IPC机制的设计与实现
@@ -131,7 +131,7 @@ IPC OS (IOS)
 
 ---
 
-##### 管道实现需要考虑的问题
+#### 管道实现需要考虑的问题
 
 - 管道是啥？
 - 如何访问管道？
@@ -141,7 +141,7 @@ IPC OS (IOS)
 
 ---
 
-##### 理解管道
+#### 理解管道
 
 **管道是内核中的一块内存**
 -  顺序写入/读出字节流
@@ -158,7 +158,7 @@ IPC OS (IOS)
 
 ---
 
-##### 管道示例程序 (用户态)
+#### 管道示例程序 (用户态)
 ```rust
 ...// usr/src/bin/pipetest.rs
 static STR: &str = "Hello, world!"  //字符串全局变量
@@ -179,14 +179,14 @@ pub fn main() -> i32 {
 ```
 ---
 
-##### 管道与进程的关系
+#### 管道与进程的关系
 - `pipe`是进程控制块的资源之一
 
 ![bg right:71% 95%](figs/process-os-key-structures-file-ipc.png)
 
 ---
 
-##### 信号实现需要考虑的问题
+#### 信号实现需要考虑的问题
 - 信号是啥？
 - 如何使用信号？
 - 如何管理信号？
@@ -197,7 +197,7 @@ pub fn main() -> i32 {
 
 ---
 
-##### 理解信号
+#### 理解信号
 `signal`是内核通知应用的软件中断
 
 **准备阶段**
@@ -213,7 +213,7 @@ pub fn main() -> i32 {
 
 ---
 
-##### 信号示例程序（用户态）
+#### 信号示例程序（用户态）
 ```rust
 ...// usr/src/bin/sig_simple.rs
 fn func() { //signal_handler
@@ -235,7 +235,7 @@ pub fn main() -> i32 {
 
 ---
 
-##### 信号与进程的关系
+#### 信号与进程的关系
 - `signal`是进程控制块的资源之一
 
 ![bg right:70% 90%](figs/process-os-key-structures-file-ipc.png)
@@ -278,7 +278,7 @@ pub fn main() -> i32 {
 
 ---
 
-##### 管道：Unix 中最引人注目的发明
+#### 管道：Unix 中最引人注目的发明
 
 - 管道的概念来自贝尔实验室的Douglas McIlroy，他在1964年写的一份内部文件中，提出了把多个程序“像花园水管一样”串连并拧在一起的想法，这样数据就可以在不同程序中流动。
 - 大约在1972年下半年，Ken Thompson在听了Douglas McIlroy关于管道的唠叨后，灵机一动，迅速把管道机制实现在UNIX中。
@@ -291,7 +291,7 @@ McIlroy为原始被开发是最响誉 Unix管道实施, 软件元件部分 并�
 
 ---
 
-##### 信号：Unix 中容易出错的软件中断
+#### 信号：Unix 中容易出错的软件中断
 
 信号从Unix的第一个版本就已存在，只是与我们今天所知道的有点不同，需要通过不同的系统调用来捕获不同类型的信号。在版本4之后，改进为通过一个系统调用来捕获所有信号。
 
@@ -337,7 +337,7 @@ https://en.wikipedia.org/wiki/Signal_(IPC) -->
 
 ---
 
-##### 实践步骤 
+#### 实践步骤 
 ```
 git clone https://github.com/rcore-os/rCore-Tutorial-v3.git
 cd rCore-Tutorial-v3
@@ -349,7 +349,7 @@ make run
 
 ---
 
-##### 参考输出
+#### 参考输出
 ```
 [RustSBI output]
 ...
@@ -363,7 +363,7 @@ Rust user shell
 
 ---
 
-##### 测例 pipetest 
+#### 测例 pipetest 
 在这里我们运行一下本章的测例 pipetest ：
 ```
 >> pipetest
@@ -375,7 +375,7 @@ pipetest passed!
 
 ---
 
-##### 测例 sig_simple
+#### 测例 sig_simple
 
 在这里我们运行一下本章的测例 sig_simple ：
 
@@ -403,7 +403,7 @@ signal_simple: Done
 
 ---
 
-##### 用户代码结构
+#### 用户代码结构
 ```
 └── user
     └── src
@@ -420,7 +420,7 @@ signal_simple: Done
 
 ---
 
-##### 内核代码结构
+#### 内核代码结构
 ```
 ├── fs(新增：文件系统子模块 fs)
 │   ├── mod.rs(包含已经打开且可以被进程读写的文件的抽象 File Trait)
@@ -454,7 +454,7 @@ signal_simple: Done
 
 ---
 
-##### 管道的设计实现
+#### 管道的设计实现
 基于文件抽象，支持I/O重定向
 1. [K] 实现基于文件的标准输入/输出
 2. [K] 实现基于文件的实现管道
@@ -465,7 +465,7 @@ signal_simple: Done
 
 ---
 
-##### 标准输入/输出文件
+#### 标准输入/输出文件
 
 1.  实现基于文件的标准输入/输出
  - FD：0 --  Stdin  ; 1/2 -- Stdout
@@ -483,7 +483,7 @@ signal_simple: Done
 
 ---
 
-##### 标准输入/输出文件初始化
+#### 标准输入/输出文件初始化
 
 2. 创建TCB时初始化`fd_table`
 
@@ -507,7 +507,7 @@ TaskControlBlock::fork(...)->... {
 
 ---
 
-##### fork实现中的标准文件创建
+#### fork实现中的标准文件创建
 
 3. `fork`时复制`fd_table`
 
@@ -531,7 +531,7 @@ TaskControlBlock::new(elf_data: &[u8]) -> Self{
 
 ---
 
-##### 管道文件
+#### 管道文件
 
 1. 管道的系统调用
 
@@ -552,7 +552,7 @@ pub fn sys_pipe(pipe: *mut usize) -> isize;
 
 ---
 
-##### 管道文件
+#### 管道文件
 
 2. 创建管道中的Buffer
 
@@ -578,7 +578,7 @@ make_pipe() -> (Arc<Pipe>, Arc<Pipe>) {
 
 ---
 
-##### 管道文件
+#### 管道文件
 
 3.  实现基于文件的输入/输出
  - 实现File 接口
@@ -596,7 +596,7 @@ make_pipe() -> (Arc<Pipe>, Arc<Pipe>) {
 
 ---
 
-##### exec系统调用的命令行参数
+#### exec系统调用的命令行参数
 - sys_exec 的系统调用接口需要发生变化
 ```rust
 // 增加了args参数
@@ -614,7 +614,7 @@ exec(args_copy[0].as_str(), args_addr.as_slice())
 
 ---
 
-##### exec系统调用的命令行参数
+#### exec系统调用的命令行参数
 
 - 将获取到的参数字符串压入到用户栈上
 ```rust
@@ -632,7 +632,7 @@ impl TaskControlBlock {
 
 ---
 
-##### exec系统调用的命令行参数
+#### exec系统调用的命令行参数
 
 ```rust
 pub extern "C" fn _start(argc: usize, argv: usize) -> ! {
@@ -647,7 +647,7 @@ pub extern "C" fn _start(argc: usize, argv: usize) -> ! {
 
 ---
 
-##### 重定向
+#### 重定向
 - 复制文件描述符系统调用
 ```rust
 /// 功能：将进程中一个已经打开的文件复制
@@ -665,7 +665,7 @@ pub fn sys_dup(fd: usize) -> isize;
 
 ---
 
-##### 重定向
+#### 重定向
 - 复制文件描述符系统调用
 ```rust
 pub fn sys_dup(fd: usize) -> isize {
@@ -680,7 +680,7 @@ pub fn sys_dup(fd: usize) -> isize {
 
 ---
 
-##### shell重定向 "$ A | B"
+#### shell重定向 "$ A | B"
 ```rust
 // user/src/bin/user_shell.rs
 {
@@ -721,7 +721,7 @@ pub fn sys_dup(fd: usize) -> isize {
 
 ---
 
-##### 与信号处理相关的系统调用
+#### 与信号处理相关的系统调用
 
 <!-- https://www.onitroad.com/jc/linux/man-pages/linux/man2/sigreturn.2.html -->
 - sigaction: 设置信号处理例程
@@ -733,7 +733,7 @@ pub fn sys_dup(fd: usize) -> isize {
 
 ---
 
-##### 与信号处理相关的系统调用
+#### 与信号处理相关的系统调用
 <!-- https://www.onitroad.com/jc/linux/man-pages/linux/man2/sigreturn.2.html -->
 ```rust
 // 设置信号处理例程
@@ -758,7 +758,7 @@ pub struct SignalAction {
 
 ---
 
-##### 与信号处理相关的系统调用
+#### 与信号处理相关的系统调用
 <!-- https://www.onitroad.com/jc/linux/man-pages/linux/man2/sigreturn.2.html -->
 ```rust
 // 设置要阻止的信号
@@ -780,7 +780,7 @@ sys_kill(pid: usize, signal: i32) -> isize
 
 ---
 
-##### 信号的核心数据结构
+#### 信号的核心数据结构
 进程控制块中的信号核心数据结构
 ```rust
 pub struct TaskControlBlockInner {
@@ -801,7 +801,7 @@ frozen的标志与SIGSTOP和SIGCONT两个信号有关。SIGSTOP会暂停进程�
 
 ---
 
-##### 建立signal_handler
+#### 建立signal_handler
 
 ```rust
 fn sys_sigaction(signum: i32, action: *const SignalAction, 
@@ -821,7 +821,7 @@ fn sys_sigaction(signum: i32, action: *const SignalAction,
 
 ---
 
-##### 通过kill发出信号
+#### 通过kill发出信号
 
 ```rust
 fn sys_kill(pid: usize, signum: i32) -> isize {
@@ -839,7 +839,7 @@ fn sys_kill(pid: usize, signum: i32) -> isize {
 
 ---
 
-##### 通过kill发出和处理信号的过程
+#### 通过kill发出和处理信号的过程
 当`pid`进程进入内核后，直到从内核返回用户态前的执行过程：
 ```
 执行APP --> __alltraps 
@@ -860,7 +860,7 @@ fn sys_kill(pid: usize, signum: i32) -> isize {
  
 ---
 
-##### APP恢复正常执行
+#### APP恢复正常执行
 当进程号为pid的进程执行完signal_handler函数主体后，会发出`sys_sigreturn`系统调用:
 ```rust
 fn sys_sigreturn() -> isize {
@@ -880,7 +880,7 @@ fn sys_sigreturn() -> isize {
 
 ---
 
-##### 屏蔽信号
+#### 屏蔽信号
 ```rust
 fn sys_sigprocmask(mask: u32) -> isize {
     ...

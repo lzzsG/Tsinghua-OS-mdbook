@@ -2,13 +2,13 @@
 # 第三讲 基于特权级的隔离与批处理
 ## 第三节 实践：批处理操作系统
 
-<br>
-<br>
+
+
 
 向勇 陈渝 李国良 任炬 
 
-<br>
-<br>
+
+
 
 2024年春季
 
@@ -23,7 +23,7 @@
 6. 内核程序设计
 
 ---
-##### 批处理操作系统的结构
+#### 批处理操作系统的结构
 ![w:750](figs/batch-os-detail.png)
 
   <!-- - 构造&加载 OS&APP
@@ -33,7 +33,7 @@
 
 
 ---
-##### 批处理OS目标
+#### 批处理OS目标
 - 让APP与OS隔离
 - 自动加载并运行多个程序
   - **批处理（batch）**
@@ -45,7 +45,7 @@ LibOS目标
 ![bg right:54% 95%](figs/batch-os.png)
 
 ---
-##### 实验要求
+#### 实验要求
 - 理解**运行其他软件**的软件
 - 理解特权级和**特权级切换**
 - 理解**系统调用**
@@ -55,7 +55,7 @@ LibOS目标
 ![bg right:52% 90%](figs/dunkleosteus.png)
 
 ---
-##### 总体思路
+#### 总体思路
 - 编译：应用程序和内核**独立编译**，合并为一个镜像
 - 构造：**系统调用**服务请求接口，**应用管理与初始化**
 - 运行：OS一个一个地**执行应用**
@@ -65,7 +65,7 @@ LibOS目标
 
 
 ---
-##### 历史背景
+#### 历史背景
 - [GM-NAA I/O System](http://en.wikipedia.org/wiki/GM-NAA_I/O)(1956)
   - 启发：汽车生产线 
 - MULTICS OS(1969,MIT/GE/AT&T)
@@ -87,7 +87,7 @@ Ref: [What was the first operating system to be called an "operating system"?](h
 6. 内核程序设计
 
 ---
-##### 步骤
+#### 步骤
 - 构造包含OS和多个APP的**单一执行镜像**
 - 通过批处理支持多个**APP的自动加载和运行**
 - 利用硬件特权级机制实现对操作系统自身的**保护**
@@ -100,7 +100,7 @@ Ref: [What was the first operating system to be called an "operating system"?](h
 
 
 ---
-##### 编译步骤
+#### 编译步骤
 ```
 git clone https://github.com/rcore-os/rCore-Tutorial-v3.git
 cd rCore-Tutorial-v3
@@ -111,7 +111,7 @@ make run
 ```
 
 ---
-##### 参考运行结果
+#### 参考运行结果
 ```
 ...
 [kernel] num_app = 5
@@ -137,7 +137,7 @@ Hello, world!
 6. 内核程序设计
 
 ---
-##### 构建应用
+#### 构建应用
 把多个应用合在一起与OS形成一个二进制镜像
 ```
 ├── os
@@ -150,7 +150,7 @@ Hello, world!
 
 
 ---
-##### 改进OS
+#### 改进OS
 加载和执行程序、特权级上下文切换
 ```
 ├── os
@@ -165,7 +165,7 @@ Hello, world!
 ```
 
 ---
-##### 系统调用
+#### 系统调用
 
 ```
 ├── os
@@ -177,7 +177,7 @@ Hello, world!
 ```
 
 ---
-##### 添加应用
+#### 添加应用
 批处理OS会按照文件名开头的数字顺序依次加载并运行它们
 ```
 └── user(新增：应用测例保存在 user 目录下)
@@ -190,7 +190,7 @@ Hello, world!
       │   └── 04priv_csr.rs    # 执行CSR操作指令的应用
 ```            
 ---
-##### 应用库和编译应用支持
+#### 应用库和编译应用支持
 应用库和编译应用支持
 ```
 └── user(新增：应用测例保存在 user 目录下)
@@ -215,7 +215,7 @@ Hello, world!
 6. 内核程序设计
 
 ---
-##### RISC-V陷入(trap)类指令
+#### RISC-V陷入(trap)类指令
 
 - ecall： 随着 CPU 当前特权级而触发不同的陷入异常
 - ebreak：触发断点陷入异常
@@ -228,7 +228,7 @@ Hello, world!
 
 
 ---
-##### RISC-V异常向量
+#### RISC-V异常向量
 
 <style scoped>
 table {
@@ -291,7 +291,7 @@ table {
 </div>
 
 ---
-##### 应用与底层支撑库分离
+#### 应用与底层支撑库分离
 
 ```
 └── user(应用程序和底层支撑库)
@@ -303,14 +303,14 @@ table {
 ```
 
 ---
-##### 引入外部库
+#### 引入外部库
 ``` rust
   #[macro_use]
   extern crate user_lib;
 ```
 
 ---
-##### 设计支撑库
+#### 设计支撑库
 
 在 lib.rs 中我们定义了用户库的入口点 _start ：
 ``` rust
@@ -361,12 +361,12 @@ pub extern "C" fn _start() -> ! {
 </div>
 
 ---
-##### 应用程序的内存布局
+#### 应用程序的内存布局
 
 ![bg 77%](figs/memlayout.png)
 
 ---
-##### 设计支撑库
+#### 设计支撑库
 `user/src/linker.ld`
 
 - 将**程序的起始物理地址**调整为 0x80400000 ，应用程序都会被加载到这个物理地址上运行；
@@ -413,12 +413,12 @@ pub extern "C" fn _start() -> ! {
 </div>
 
 ---
-##### 应用程序的系统调用执行流
+#### 应用程序的系统调用执行流
 
 ![w:1050](figs/EnvironmentCallFlow.png)
 
 ---
-##### 应用程序的系统调用执行流
+#### 应用程序的系统调用执行流
 
 - 在子模块 syscall 中，应用程序通过 ecall 调用批处理系统提供的接口
 - ``ecall`` 指令会触发 名为 Environment call from U-mode 的异常
@@ -428,7 +428,7 @@ pub extern "C" fn _start() -> ! {
 ![bg right:42% 100%](figs/riscv-regs.png)
 
 ---
-##### 系统调用支撑库
+#### 系统调用支撑库
 ``` rust --
 /// 功能：将内存中缓冲区中的数据写入文件。
 /// 参数：`fd` 表示待写入文件的文件描述符；
@@ -447,7 +447,7 @@ fn sys_exit(xstate: usize) -> !;
 
 
 ---
-##### 系统调用参数传递
+#### 系统调用参数传递
 
 ``` rust
 fn syscall(id: usize, args: [usize; 3]) -> isize {
@@ -467,7 +467,7 @@ fn syscall(id: usize, args: [usize; 3]) -> isize {
 参考文档：Rust by Example - [Inline assembly](https://doc.rust-lang.org/rust-by-example/unsafe/asm.html)
 
 ---
-##### 系统调用封装
+#### 系统调用封装
 ```rust
 const SYSCALL_WRITE: usize = 64; 
 const SYSCALL_EXIT: usize = 93;
@@ -481,7 +481,7 @@ pub fn sys_exit(xstate: i32) -> isize {
 ```
 
 ---
-##### 系统调用封装
+#### 系统调用封装
 ``` rust
 pub fn write(fd: usize, buf: &[u8]) -> isize { sys_write(fd, buf) }
 
@@ -535,7 +535,7 @@ impl Write for Stdout {
 </div>
 
 ---
-##### 将应用程序映像链接到内核
+#### 将应用程序映像链接到内核
 ```
 # os/src/link_app.S 由脚本 os/build.rs 生成
     .section .data
@@ -555,7 +555,7 @@ app_0_end:
 
 
 ---
-##### 应用程序管理数据结构
+#### 应用程序管理数据结构
 
 ```rust
 // os/src/batch.rs
@@ -569,7 +569,7 @@ struct AppManager {
 
 
 ---
-##### 找到应用程序二进制码
+#### 找到应用程序二进制码
 - 找到 link_app.S 中提供的符号 _num_app
 ``` rust
 lazy_static! {
@@ -586,7 +586,7 @@ lazy_static! {
 ```
 
 ---
-##### 加载应用程序二进制码
+#### 加载应用程序二进制码
 ```rust
 unsafe fn load_app(&self, app_id: usize) {
     // clear icache
@@ -605,7 +605,7 @@ unsafe fn load_app(&self, app_id: usize) {
 
 
 ---
-##### 加载应用程序二进制码
+#### 加载应用程序二进制码
 
 - fence.i ：用来清理 i-cache
 
@@ -614,7 +614,7 @@ unsafe fn load_app(&self, app_id: usize) {
 **WHY？**
 
 ---
-##### 加载应用程序二进制码
+#### 加载应用程序二进制码
 
 - fence.i ：用来清理 i-cache
 
@@ -663,7 +663,7 @@ unsafe fn load_app(&self, app_id: usize) {
 </div>
 
 ---
-##### 特权级切换相关CSR
+#### 特权级切换相关CSR
 | CSR 名  | 该 CSR 与 Trap 相关的功能                                    |
 | ------- | ------------------------------------------------------------ |
 | sstatus | `SPP` 等字段给出 Trap 发生之前 CPU 的特权级（S/U）等 |
@@ -673,7 +673,7 @@ unsafe fn load_app(&self, app_id: usize) {
 | stvec   | 控制 Trap 处理代码的入口地址     |
 
 ---
-##### 特权级切换后的硬件逻辑
+#### 特权级切换后的硬件逻辑
 
 1. sstatus 的 SPP 字段会被修改为 CPU 当前的特权级（U/S）；
 2. sepc 会被修改为产生 Trap 的指令地址；
@@ -683,7 +683,7 @@ unsafe fn load_app(&self, app_id: usize) {
 
 
 ---
-##### 特权级切换与用户栈和内核栈
+#### 特权级切换与用户栈和内核栈
 Why 使用两个不同的栈？
 
 **安全 安全 安全**
@@ -697,7 +697,7 @@ static USER_STACK: UserStack = UserStack { data: [0; USER_STACK_SIZE] };
 ```
 
 ---
-##### 特权级切换中的换栈
+#### 特权级切换中的换栈
 ``` rust
 impl UserStack {
     fn get_sp(&self) -> usize {
@@ -748,7 +748,7 @@ RegSP = KERNEL_STACK.get_sp();
 </div>
 
 ---
-##### Trap上下文数据结构
+#### Trap上下文数据结构
 ``` rust
 #[repr(C)]
 pub struct TrapContext {
@@ -762,7 +762,7 @@ pub struct TrapContext {
 
 
 ---
-##### 特权级切换后的Trap入口点
+#### 特权级切换后的Trap入口点
 ```rust
 pub fn init() {
     extern "C" { fn __alltraps(); }
@@ -774,7 +774,7 @@ pub fn init() {
 
 
 ---
-##### 系统调用过程中的Trap上下文处理
+#### 系统调用过程中的Trap上下文处理
 
 1. **应用程序**通过 ecall 进入到内核状态时，**操作系统**保存被打断的应用程序的 Trap 上下文；
 2. **操作系统**根据Trap相关的CSR寄存器内容，完成系统调用服务的分发与处理；
@@ -784,7 +784,7 @@ pub fn init() {
 
 ---
 
-##### 用户栈到内核栈的切换
+#### 用户栈到内核栈的切换
 **sscratch CSR** 重要的中转寄存器
 
 在特权级切换的时候，我们需要将 Trap 上下文保存在内核栈上，因此**需要一个寄存器暂存内核栈地址**，并以它作为基地址指针来依次保存 Trap 上下文的内容。
@@ -792,7 +792,7 @@ pub fn init() {
 但是所有的通用寄存器都不能够用作基地址指针，因为它们都需要被保存，如果覆盖掉它们，就会影响后续应用控制流的执行。
 
 ---
-##### 用户栈到内核栈的切换
+#### 用户栈到内核栈的切换
 
 **sscratch CSR** 重要的中转寄存器
 
@@ -802,7 +802,7 @@ pub fn init() {
 - 完成用户栈-->内核栈的切换
 
 ---
-##### 保存Trap上下文中的通用寄存器
+#### 保存Trap上下文中的通用寄存器
 
 保存通用寄存器的宏
 ```
@@ -851,7 +851,7 @@ pub fn init() {
 </div>
 
 ---
-##### Trap处理流程
+#### Trap处理流程
 
 
 Trap 处理的总体流程如下：
@@ -869,7 +869,7 @@ __alltraps:
 
 
 ---
-##### 保存Trap上下文
+#### 保存Trap上下文
 保存通用寄存器
 ```
     # save general-purpose registers
@@ -887,7 +887,7 @@ __alltraps:
 
 
 ---
-##### 保存Trap上下文
+#### 保存Trap上下文
 保存 sstatus 和 sepc 
 ```
     # we can use t0/t1/t2 freely, because they were saved on kernel stack
@@ -898,7 +898,7 @@ __alltraps:
 ```
 
 ---
-##### 保存Trap上下文
+#### 保存Trap上下文
 保存 user SP
 ```
     # read user stack from sscratch and save it on the kernel stack
@@ -913,7 +913,7 @@ pub struct TrapContext {
 }
 ```
 ---
-##### 调用trap_handler
+#### 调用trap_handler
 ```
     # set input argument of trap_handler(cx: &mut TrapContext)
     mv a0, sp
@@ -923,7 +923,7 @@ pub struct TrapContext {
 
 
 ---
-##### 恢复Trap上下文
+#### 恢复Trap上下文
 1. 大部分是保存寄存器的反向操作；
 2. 最后一步是 ``sret``指令 //从内核态返回到用户态
 
@@ -931,7 +931,7 @@ pub struct TrapContext {
 
 
 ---
-##### trap_handler处理syscall
+#### trap_handler处理syscall
 
 ```rust
 #[no_mangle]
@@ -951,7 +951,7 @@ pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
 
 
 ---
-##### trap_handler处理syscall
+#### trap_handler处理syscall
 
 ``` rust
 pub fn sys_exit(xstate: i32) -> ! {
@@ -1000,12 +1000,12 @@ pub fn sys_exit(xstate: i32) -> ! {
 </div>
 
 ---
-##### 应用程序的执行时机
+#### 应用程序的执行时机
 - 当批处理操作系统初始化完成
 - 某个应用程序运行结束或出错
 
 ---
-##### 让应用程序执行
+#### 让应用程序执行
 从内核态切换到用户态
 - 准备好应用的上下文``Trap上下文``
 - 恢复应用的相关寄存器
@@ -1015,7 +1015,7 @@ pub fn sys_exit(xstate: i32) -> ! {
 ![bg right:35% 100%](figs/kernel-stack.png)
 
 ---
-##### 返回用户态让应用执行
+#### 返回用户态让应用执行
 
 - 从内核态切换到用户态
   -  ``sret``指令的**硬件逻辑**：
@@ -1024,7 +1024,7 @@ pub fn sys_exit(xstate: i32) -> ! {
      - ``pc`` <-- ``spec`` CSR
      - 继续运行
 ---
-##### 切换到下一个应用程序
+#### 切换到下一个应用程序
 
 调用 run_next_app 函数切换到下一个应用程序：
 - 构造应用程序开始执行所需的 Trap 上下文；
@@ -1035,7 +1035,7 @@ pub fn sys_exit(xstate: i32) -> ! {
 
 
 ---
-##### 构造Trap上下文
+#### 构造Trap上下文
 ``` rust
 impl TrapContext {
     pub fn set_sp(&mut self, sp: usize) { self.x[2] = sp; }
@@ -1053,7 +1053,7 @@ impl TrapContext {
 
 
 ---
-##### 运行下一程序
+#### 运行下一程序
 ``` rust
 ub fn run_next_app() -> ! {
     ...
@@ -1071,7 +1071,7 @@ ub fn run_next_app() -> ! {
 ```
 
 ---
-##### 运行下一程序
+#### 运行下一程序
 ```
 __restore:
     # case1: start running app by __restore
@@ -1089,7 +1089,7 @@ __restore:
 
 
 ---
-##### 运行下一程序
+#### 运行下一程序
 
 ```
 # restore general-purpuse registers except sp/tp
@@ -1108,7 +1108,7 @@ __restore:
 ```
 
 ---
-##### 提问
+#### 提问
 
  sscratch 是何时被设置为内核栈顶的？
 

@@ -2,8 +2,8 @@
 # 第八讲 多处理器调度
 ## 第五节 Linux/FreeBSD BFS 调度
 
-<br>
-<br>
+
+
 
 向勇 陈渝 李国良 任炬 
 
@@ -16,12 +16,12 @@
 ### 1. BFS调度器
 2. BFS 与 CFS 的性能对比 (2012)
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
+
+
+
+
+
 
 Ref: [Analysis of the BFS Scheduler in FreeBSD](http://vellvisher.github.io/papers_reports/doc/BFS_FreeBSD.pdf)
 
@@ -107,12 +107,12 @@ prioratio increases by 10% for every nice level
 1. BFS调度器
 ### 2. BFS 与 CFS 的性能对比 (2012)
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
+
+
+
+
+
 
 Ref: [Analysis of the BFS Scheduler in FreeBSD](http://vellvisher.github.io/papers_reports/doc/BFS_FreeBSD.pdf)
 
