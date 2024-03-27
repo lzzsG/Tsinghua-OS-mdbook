@@ -16,6 +16,7 @@
 - [lec3/基于特权级的隔离与批处理]()
     - [p1-osviewarch](lec3/p1-osviewarch.md)
     - [p2-osviewrv](lec3/p2-osviewrv.md)
+    - [p2-lzzs补充](lec3/p2-lzzs补充.md)
     - [p3-batchos](lec3/p3-batchos.md)
 - [lec4/多道程序与分时多任务]()
     - [p1-multiprog](lec4/p1-multiprog.md)
