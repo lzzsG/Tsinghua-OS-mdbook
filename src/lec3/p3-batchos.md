@@ -42,6 +42,7 @@ LibOS目标
 - 让应用与硬件隔离
 - 简化应用访问硬件的难度和复杂性
   
+
 ![bg right:54% 95%](figs/batch-os.png)
 
 ---
@@ -70,9 +71,9 @@ LibOS目标
   - 启发：汽车生产线 
 - MULTICS OS(1969,MIT/GE/AT&T)
   - GE 645 具有 8 级硬件支持的保护环
- GM-NAA: General Motors and North American Aviation;
- GE： General Electric
-![bg right:38% 95%](figs/deng-fish.png)
+   GM-NAA: General Motors and North American Aviation;
+    GE： General Electric
+   ![bg right:38% 95%](figs/deng-fish.png)
 
 Ref: [What was the first operating system to be called an "operating system"?](https://retrocomputing.stackexchange.com/questions/24622/what-was-the-first-operating-system-to-be-called-an-operating-system)
 
@@ -188,7 +189,7 @@ Hello, world!
       │   ├── 02power.rs       # 计算与I/O频繁交替的应用 
       │   ├── 03priv_inst.rs   # 执行特权指令的应用
       │   └── 04priv_csr.rs    # 执行CSR操作指令的应用
-```            
+```
 ---
 #### 应用库和编译应用支持
 应用库和编译应用支持
@@ -224,6 +225,7 @@ Hello, world!
 
 - sret： 随着 CPU 当前特权级而触发不同的陷入异常
   
+
 ![bg right:51% 120%](figs/EnvironmentCallFlow.png)
 
 
@@ -1123,3 +1125,35 @@ __restore:
 - 能写邓氏鱼OS
 
 ![bg right:57% 95%](figs/batch-os-detail.png)
+
+---
+
+# 【总结笔记】
+
+本节关于基于特权级隔离的批处理操作系统的内容，我们可以将总结分为几个部分：
+
+### 实验目标与总体设计
+
+- **实验目标**：理解和掌握基于RISC-V特权级机制的操作系统的隔离机制，包括系统调用的支持、特权级切换，以及批处理系统的基本概念。
+- **系统设计**：设计一个简单的批处理操作系统，能够自动加载并执行多个程序，同时通过特权级机制保护操作系统不被应用程序影响。
+
+### 批处理操作系统的结构与实践步骤
+
+- **操作系统结构**：一个包含了多个应用程序的单一执行镜像，通过批处理支持多个应用程序的自动加载和运行。
+- **实践步骤**：包括编译、构造、运行和调试多个应用程序，以及内核程序。
+
+### 软件架构与硬件依赖
+
+- **软件架构**：OS 和应用程序的独立编译与链接，以及系统调用的支持。
+- **硬件特性**：包括RISC-V的陷阱（trap）指令和异常向量，这些是支持特权级切换和系统调用的基础。
+
+### 应用程序与内核程序设计
+
+- **应用程序设计**：基于用户库的应用程序开发，确保了应用程序能够在用户态下安全运行。
+- **内核程序设计**：包括应用管理和加载、特权级切换、陷阱上下文保存和恢复、以及应用程序的执行和系统调用处理。
+
+### 历史背景与启发
+
+- **历史背景**：批处理操作系统的概念源于早期的计算机操作系统，如GM-NAA I/O System，以及后来的多道程序设计和操作系统设计，如MULTICS OS。
+
+通过这种分部的总结方式，我们可以深入理解批处理操作系统的工作原理，包括它是如何利用RISC-V特权级机制实现隔离，以及如何自动加载并运行多个程序，这为理解更复杂的现代操作系统提供了重要的基础。同时，这也说明了现代操作系统设计中对硬件特性的依赖，以及硬件特性如何影响操作系统的功能和性能。
