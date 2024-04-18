@@ -3,7 +3,7 @@ authors = ["lzzsG"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Tsinghua-OS"
+title = "Tsinghua OS Slide Mdbook"
 
 
 [output.html]
